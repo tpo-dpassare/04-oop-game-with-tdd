@@ -3,4 +3,8 @@
  * Game.js
  */
 
-class Game {}
+class Game {
+  constructor () {
+    this.missed = 0
+  }
+}
