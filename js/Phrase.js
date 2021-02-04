@@ -14,9 +14,19 @@ class Phrase {
 
   addPhraseToDisplay () {
     for (let i = 0; i < this._phrase.length; i++) {
+      const char = this._phrase.charAt(i)
+
       window.ui.phraseList.insertAdjacentHTML(
         'beforeend',
-        window.templates.render(window.templates.letter, this._phrase.charAt(i))
+        window.templates.render(
+          window.templates.letter,
+          (
+            char === ' '
+              ? 'space'
+              : `hide letter ${char}`
+          ),
+          char
+        )
       )
     }
   }

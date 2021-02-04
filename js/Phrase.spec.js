@@ -33,32 +33,30 @@ describe('meets expectations', () => {
     })
 
     describe('the "addPhraseToDisplay" property', () => {
-      let instance = null
-
-      before(() => {
-        instance = new Phrase('test')
-      })
-
       it('must be a function', () => {
+        const instance = new Phrase('test')
+
         const expected = 'function'
         const actual = typeof instance.addPhraseToDisplay
 
         expect(actual).to.equal(expected)
       })
 
-      context('when called', () => {
+      context('when called with a multi-word phrase', () => {
+        let instance = null
         let parentElement = null
 
         before(() => {
+          instance = new Phrase('hello world')
           instance.addPhraseToDisplay()
           parentElement = document.querySelector('#phrase UL')
         })
 
         after(() => {
-          // parentElement.innerHTML = ''
+          parentElement.innerHTML = ''
         })
 
-        it('must create an element for each letter', () => {
+        it('must create an element for each character', () => {
           const expected = instance.phrase.length
           const actual = parentElement.children.length
 
@@ -81,7 +79,7 @@ describe('meets expectations', () => {
             })
           })
 
-          it('must contain the appropriate letter', () => {
+          it('must contain the appropriate character', () => {
             elements.forEach((elem, idx) => {
               const expected = instance.phrase.charAt(idx)
               const actual = elem.textContent
@@ -92,7 +90,12 @@ describe('meets expectations', () => {
 
           it('must have the expected CSS class names', () => {
             elements.forEach((elem, idx) => {
-              const expected = ['hide', 'letter']
+              const expected = (
+                instance.phrase.charAt(idx) === ' '
+                  ? ['space']
+                  : ['hide', 'letter', instance.phrase.charAt(idx)]
+              )
+
               const actual = elem.className.split(' ')
 
               expect(actual).to.have.members(expected)
