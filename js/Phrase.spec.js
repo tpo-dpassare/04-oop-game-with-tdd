@@ -104,5 +104,43 @@ describe('meets expectations', () => {
         })
       })
     })
+
+    it('must have a property called "checkLetter"', () => {
+      const instance = new Phrase()
+      expect(instance).to.have.property('checkLetter')
+    })
+
+    describe('the "checkLetter" property', () => {
+      it('must be a function', () => {
+        const instance = new Phrase('test')
+
+        const expected = 'function'
+        const actual = typeof instance.checkLetter
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when called', () => {
+        let instance = null
+
+        before(() => {
+          instance = new Phrase('hello world')
+        })
+
+        it('must return `true` if the specified letter is contained in the phrase', () => {
+          const expected = true
+          const actual = instance.checkLetter('h')
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must return `false` if the specified letter is not contained in the phrase', () => {
+          const expected = false
+          const actual = instance.checkLetter('x')
+
+          expect(actual).to.equal(expected)
+        })
+      })
+    })
   })
 })

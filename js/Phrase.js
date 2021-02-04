@@ -30,4 +30,8 @@ class Phrase {
       )
     }
   }
+
+  checkLetter (letter) {
+    return (this._phrase.indexOf(letter) > -1)
+  }
 }
