@@ -34,4 +34,12 @@ class Phrase {
   checkLetter (letter) {
     return (this._phrase.indexOf(letter) > -1)
   }
+
+  showMatchedLetter (letter) {
+    window.ui.phraseList.children.forEach((child) => {
+      if (child.classList.contains(letter)) {
+        child.classList.replace('hide', 'show')
+      }
+    })
+  }
 }

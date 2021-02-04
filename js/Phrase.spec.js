@@ -49,7 +49,7 @@ describe('meets expectations', () => {
         before(() => {
           instance = new Phrase('hello world')
           instance.addPhraseToDisplay()
-          parentElement = document.querySelector('#phrase UL')
+          parentElement = window.ui.phraseList
         })
 
         after(() => {
@@ -139,6 +139,64 @@ describe('meets expectations', () => {
           const actual = instance.checkLetter('x')
 
           expect(actual).to.equal(expected)
+        })
+      })
+    })
+
+    it('must have a property called "showMatchedLetter"', () => {
+      const instance = new Phrase()
+      expect(instance).to.have.property('showMatchedLetter')
+    })
+
+    describe('the "showMatchedLetter" property', () => {
+      it('must be a function', () => {
+        const instance = new Phrase('test')
+
+        const expected = 'function'
+        const actual = typeof instance.showMatchedLetter
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when called', () => {
+        let instance = null
+        let parentElement = null
+
+        before(() => {
+          instance = new Phrase('hello world')
+          instance.addPhraseToDisplay()
+          instance.showMatchedLetter('l')
+          parentElement = window.ui.phraseList
+        })
+
+        after(() => {
+          parentElement.innerHTML = ''
+        })
+
+        it('must update the CSS class names for each matched letter', () => {
+          Array.from(parentElement.children)
+            .filter((child) => {
+              return child.textContent === 'l'
+            })
+            .forEach((child) => {
+              const expected = ['show', 'letter', 'l']
+              const actual = child.className.split(' ')
+
+              expect(actual).to.have.members(expected)
+            })
+        })
+
+        it('must not change the CSS class names for each unmatched letter', () => {
+          Array.from(parentElement.children)
+            .filter((child) => {
+              return (child.textContent !== 'l' && child.textContent !== ' ')
+            })
+            .forEach((child) => {
+              const expected = ['hide', 'letter', child.textContent]
+              const actual = child.className.split(' ')
+
+              expect(actual).to.have.members(expected)
+            })
         })
       })
     })
