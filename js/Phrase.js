@@ -36,10 +36,10 @@ class Phrase {
   }
 
   showMatchedLetter (letter) {
-    window.ui.phraseList.children.forEach((child) => {
-      if (child.classList.contains(letter)) {
-        child.classList.replace('hide', 'show')
-      }
+    const className = `.${letter}`
+
+    window.ui.phraseList.querySelectorAll(className).forEach((child) => {
+      child.classList.replace('hide', 'show')
     })
   }
 }
