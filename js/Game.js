@@ -1,10 +1,15 @@
-/* Treehouse FSJS Techdegree
- * Project 4 - OOP Game App
- * Game.js
- */
+/* global Phrase */
 
 class Game {
   constructor () {
     this.missed = 0
+    this.phrases = [
+      new Phrase('eloquent javascript'),
+      new Phrase('clean agile'),
+      new Phrase('code complete'),
+      new Phrase('continuous delivery'),
+      new Phrase('extreme programming explained')
+    ]
+    this.activePhrase = null
   }
 }
