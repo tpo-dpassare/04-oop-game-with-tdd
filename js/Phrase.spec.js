@@ -1,9 +1,7 @@
 /* eslint-env mocha */
-/* global Phrase */
+/* global expect, Phrase */
 
 'use strict'
-
-const expect = window.chai.expect
 
 describe('meets expectations', () => {
   describe('the Phrase class', () => {
