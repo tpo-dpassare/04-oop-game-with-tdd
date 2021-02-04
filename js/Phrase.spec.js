@@ -23,6 +23,13 @@ describe('meets expectations', () => {
 
         expect(actual).to.equal('test')
       })
+
+      it('must be converted to lower case', () => {
+        const instance = new Phrase('TEST')
+        const actual = instance.phrase
+
+        expect(actual).to.equal('test')
+      })
     })
 
     it('must have a property called "addPhraseToDisplay"', () => {

@@ -5,7 +5,14 @@
 
 class Phrase {
   constructor (phrase) {
-    this._phrase = phrase
+    /**
+     * If no value is provided when the instance is created, then default to an
+     * empty string. Otherwise the following call to `toLowerCase` will fail
+     * dramatically.
+     */
+    phrase = phrase || ''
+
+    this._phrase = phrase.toLowerCase()
   }
 
   get phrase () {
@@ -32,10 +39,13 @@ class Phrase {
   }
 
   checkLetter (letter) {
+    letter = letter.toLowerCase()
     return (this._phrase.indexOf(letter) > -1)
   }
 
   showMatchedLetter (letter) {
+    letter = letter.toLowerCase()
+
     const className = `.${letter}`
 
     window.ui.phraseList.querySelectorAll(className).forEach((child) => {
