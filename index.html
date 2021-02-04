@@ -84,6 +84,21 @@
 	  reporter: window.WebConsole,
 	  ui: 'bdd'
 	})
+
+	window.ui = Object.freeze({
+	  phraseList: document.getElementById('phrase').children[0]
+	})
+
+	window.templates = Object.freeze({
+	  render: (template, ...values) => {
+	  	values.forEach((val) => {
+	  	  template = template.replace(/%%/, val)
+	  	})
+
+	  	return template
+	  },
+	  letter: '<li class="hide letter">%%</li>'
+	})
 	</script>
 
 	<script type="text/javascript" src="js/Phrase.js"></script>
