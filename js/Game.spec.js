@@ -85,5 +85,86 @@ describe('meets expectations', () => {
         expect(actual).to.equal(expected)
       })
     })
+
+    it('must have a property called "getRandomPhrase"', () => {
+      const instance = new Game()
+      expect(instance).to.have.property('getRandomPhrase')
+    })
+
+    describe('the "getRandomPhrase" property', () => {
+      let instance = null
+
+      before(() => {
+        instance = new Game()
+      })
+
+      it('must be a function', () => {
+        const expected = 'function'
+        const actual = typeof instance.getRandomPhrase
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when called', () => {
+        it('must return an instance of Phrase', () => {
+          const actual = instance.getRandomPhrase()
+          expect(actual).to.be.instanceOf(Phrase)
+        })
+
+        it('must return one of the entries from "phrases"', () => {
+          const choices = instance.phrases.map((phrase) => { return phrase.phrase })
+          const actual = instance.getRandomPhrase().phrase
+
+          expect(actual).to.be.oneOf(choices)
+        })
+      })
+    })
+
+    it('must have a property called "startGame"', () => {
+      const instance = new Game()
+      expect(instance).to.have.property('startGame')
+    })
+
+    describe('the "startGame" property', () => {
+      let instance = null
+
+      before(() => {
+        instance = new Game()
+      })
+
+      it('must be a function', () => {
+        const expected = 'function'
+        const actual = typeof instance.startGame
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when called', () => {
+        before(() => {
+          instance.startGame()
+        })
+
+        it('must hide the start screen overlay', () => {
+          const expected = 'none'
+          const actual = window.ui.startOverlay.style.display
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must populate the "activePhrase" property from the choices available in "phrases"', () => {
+          const choices = instance.phrases.map((phrase) => { return phrase.phrase })
+          const actual = instance.activePhrase.phrase
+
+          expect(actual).to.be.oneOf(choices)
+        })
+
+        it('must display the hidden letters for "activePhrase" on the screen', () => {
+          const expected = instance.activePhrase.phrase.length
+          const actual = window.ui.phraseList.children.length
+
+          expect(actual).to.equal(expected)
+        })
+      })
+    })
   })
 })
