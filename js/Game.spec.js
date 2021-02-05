@@ -134,7 +134,7 @@ describe('meets expectations', () => {
 
       after(() => {
         // reset display
-        window.ui.phraseList.innerHTML = ''
+        window.ui.reset()
       })
 
       it('must be a function', () => {
@@ -151,7 +151,7 @@ describe('meets expectations', () => {
 
         it('must hide the start screen overlay', () => {
           const expected = 'none'
-          const actual = window.ui.startOverlay.style.display
+          const actual = window.ui.overlay.style.display
 
           expect(actual).to.equal(expected)
         })
@@ -166,6 +166,72 @@ describe('meets expectations', () => {
         it('must display the hidden letters for "activePhrase" on the screen', () => {
           const expected = instance.activePhrase.phrase.length
           const actual = window.ui.phraseList.children.length
+
+          expect(actual).to.equal(expected)
+        })
+      })
+    })
+
+    it('must have a property called "gameOver"', () => {
+      const instance = new Game()
+      expect(instance).to.have.property('gameOver')
+    })
+
+    describe('the "gameOver" property', () => {
+      let instance = null
+
+      beforeEach(() => {
+        instance = new Game()
+        instance.startGame()
+      })
+
+      afterEach(() => {
+        // reset display
+        window.ui.reset()
+      })
+
+      it('must be a function', () => {
+        const expected = 'function'
+        const actual = typeof instance.checkForWin
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when called with the parameter value of "win"', () => {
+        beforeEach(() => {
+          instance.gameOver('win')
+        })
+
+        it('must make the overlay appear', () => {
+          const expected = ''
+          const actual = window.ui.overlay.style.display
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must assign the correct CSS class to the overlay', () => {
+          const expected = 'win'
+          const actual = window.ui.overlay.className
+
+          expect(actual).to.equal(expected)
+        })
+      })
+
+      context('when called with the parameter value of "lose"', () => {
+        beforeEach(() => {
+          instance.gameOver('lose')
+        })
+
+        it('must make the overlay appear', () => {
+          const expected = ''
+          const actual = window.ui.overlay.style.display
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must assign the correct CSS class to the overlay', () => {
+          const expected = 'lose'
+          const actual = window.ui.overlay.className
 
           expect(actual).to.equal(expected)
         })
@@ -187,7 +253,7 @@ describe('meets expectations', () => {
 
       after(() => {
         // reset display
-        window.ui.phraseList.innerHTML = ''
+        window.ui.reset()
       })
 
       it('must be a function', () => {
@@ -224,6 +290,150 @@ describe('meets expectations', () => {
         it('must return true', () => {
           const expected = true
           const actual = instance.checkForWin()
+
+          expect(actual).to.equal(expected)
+        })
+      })
+    })
+
+    it('must have a property called "removeLife"', () => {
+      const instance = new Game()
+      expect(instance).to.have.property('removeLife')
+    })
+
+    describe('the "removeLife" property', () => {
+      let instance = null
+
+      before(() => {
+        instance = new Game()
+        instance.startGame()
+      })
+
+      after(() => {
+        // reset display
+        window.ui.reset()
+      })
+
+      it('must be a function', () => {
+        const expected = 'function'
+        const actual = typeof instance.removeLife
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when called once', () => {
+        before(() => {
+          instance = new Game()
+          instance.startGame()
+          instance.removeLife()
+        })
+
+        after(() => {
+          window.ui.clearMisses()
+        })
+
+        it('must flip the first missed indicator', () => {
+          const expected = 0
+          const actual = Array.from(window.ui.missedList.children).findIndex((li) => { return li.children[0].src.endsWith(window.templates.missedImgSrc) })
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must not flip the other missed indicators', () => {
+          const expected = [1, 2, 3, 4]
+          const actual = Array.from(window.ui.missedList.children)
+            .reduce((indices, li, idx) => {
+              if (!li.children[0].src.endsWith(window.templates.missedImgSrc)) {
+                return indices.concat([idx])
+              }
+
+              return indices
+            }, [])
+
+          expect(actual).to.have.members(expected)
+        })
+      })
+
+      context('when called twice', () => {
+        before(() => {
+          instance = new Game()
+          instance.startGame()
+          instance.removeLife()
+          instance.removeLife()
+        })
+
+        after(() => {
+          window.ui.clearMisses()
+        })
+
+        it('must flip the first two missed indicators', () => {
+          const expected = [0, 1]
+          const actual = Array.from(window.ui.missedList.children)
+            .reduce((indices, li, idx) => {
+              if (li.children[0].src.endsWith(window.templates.missedImgSrc)) {
+                return indices.concat([idx])
+              }
+
+              return indices
+            }, [])
+
+          expect(actual).to.have.members(expected)
+        })
+
+        it('must not flip the other missed indicators', () => {
+          const expected = [2, 3, 4]
+          const actual = Array.from(window.ui.missedList.children)
+            .reduce((indices, li, idx) => {
+              if (!li.children[0].src.endsWith(window.templates.missedImgSrc)) {
+                return indices.concat([idx])
+              }
+
+              return indices
+            }, [])
+
+          expect(actual).to.have.members(expected)
+        })
+      })
+
+      context('when called five times', () => {
+        before(() => {
+          instance = new Game()
+          instance.startGame()
+          instance.removeLife()
+          instance.removeLife()
+          instance.removeLife()
+          instance.removeLife()
+          instance.removeLife()
+        })
+
+        after(() => {
+          window.ui.clearMisses()
+        })
+
+        it('must flip all of the missed indicators', () => {
+          const expected = [0, 1, 2, 3, 4]
+          const actual = Array.from(window.ui.missedList.children)
+            .reduce((indices, li, idx) => {
+              if (li.children[0].src.endsWith(window.templates.missedImgSrc)) {
+                return indices.concat([idx])
+              }
+
+              return indices
+            }, [])
+
+          expect(actual).to.have.members(expected)
+        })
+
+        it('must make the overlay appear', () => {
+          const expected = ''
+          const actual = window.ui.overlay.style.display
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must assign the correct CSS class to the overlay', () => {
+          const expected = 'lose'
+          const actual = window.ui.overlay.className
 
           expect(actual).to.equal(expected)
         })

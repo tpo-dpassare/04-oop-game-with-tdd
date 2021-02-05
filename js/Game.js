@@ -19,9 +19,19 @@ class Game {
   }
 
   startGame () {
-    window.ui.startOverlay.style.display = 'none'
+    window.ui.overlay.style.display = 'none'
     this.activePhrase = this.getRandomPhrase()
     this.activePhrase.addPhraseToDisplay()
+  }
+
+  gameOver (status) {
+    if (status === 'win') {
+      window.ui.overlay.className = 'win'
+    } else {
+      window.ui.overlay.className = 'lose'
+    }
+
+    window.ui.overlay.style.display = ''
   }
 
   checkForWin () {
@@ -29,5 +39,14 @@ class Game {
       .every((child) => {
         return child.classList.contains('space') || child.classList.contains('show')
       })
+  }
+
+  removeLife () {
+    window.ui.missedList.children[this.missed].children[0].src = window.templates.missedImgSrc
+    this.missed++
+
+    if (this.missed === 4) {
+      this.gameOver('lose')
+    }
   }
 }

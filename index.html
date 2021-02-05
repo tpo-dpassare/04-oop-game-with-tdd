@@ -89,7 +89,19 @@
 
 	window.ui = Object.freeze({
 	  phraseList: document.getElementById('phrase').children[0],
-	  startOverlay: document.getElementById('overlay')
+	  missedList: document.getElementById('scoreboard').children[0],
+	  overlay: document.getElementById('overlay'),
+	  clearMisses: function () {
+	  	this.missedList.children.forEach((li) => {
+	  	  li.children[0].src = 'images/liveHeart.png'
+	  	})
+	  },
+	  reset: function () {
+	  	this.phraseList.innerHTML = ''
+	  	this.overlay.className = 'start'
+	  	this.overlay.style.display = ''
+	  	this.clearMisses()
+	  }
 	})
 
 	window.templates = Object.freeze({
@@ -100,7 +112,8 @@
 
 	  	return template
 	  },
-	  letter: '<li class="%%">%%</li>'
+	  letter: '<li class="%%">%%</li>',
+	  missedImgSrc: 'images/lostHeart.png'
 	})
 	</script>
 
