@@ -23,4 +23,11 @@ class Game {
     this.activePhrase = this.getRandomPhrase()
     this.activePhrase.addPhraseToDisplay()
   }
+
+  checkForWin () {
+    return Array.from(window.ui.phraseList.children)
+      .every((child) => {
+        return child.classList.contains('space') || child.classList.contains('show')
+      })
+  }
 }

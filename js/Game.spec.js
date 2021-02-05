@@ -132,6 +132,11 @@ describe('meets expectations', () => {
         instance = new Game()
       })
 
+      after(() => {
+        // reset display
+        window.ui.phraseList.innerHTML = ''
+      })
+
       it('must be a function', () => {
         const expected = 'function'
         const actual = typeof instance.startGame
@@ -161,6 +166,64 @@ describe('meets expectations', () => {
         it('must display the hidden letters for "activePhrase" on the screen', () => {
           const expected = instance.activePhrase.phrase.length
           const actual = window.ui.phraseList.children.length
+
+          expect(actual).to.equal(expected)
+        })
+      })
+    })
+
+    it('must have a property called "checkForWin"', () => {
+      const instance = new Game()
+      expect(instance).to.have.property('checkForWin')
+    })
+
+    describe('the "checkForWin" property', () => {
+      let instance = null
+
+      before(() => {
+        instance = new Game()
+        instance.startGame()
+      })
+
+      after(() => {
+        // reset display
+        window.ui.phraseList.innerHTML = ''
+      })
+
+      it('must be a function', () => {
+        const expected = 'function'
+        const actual = typeof instance.checkForWin
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when called before all of the letters in the active phrase are revealed', () => {
+        before(() => {
+          // reveal some of the letters
+          instance.activePhrase.showMatchedLetter(instance.activePhrase.phrase.charAt(0))
+        })
+
+        it('must return false', () => {
+          const expected = false
+          const actual = instance.checkForWin()
+
+          expect(actual).to.equal(expected)
+        })
+      })
+
+      context('when called after all of the letters in the active phrase are revealed', () => {
+        before(() => {
+          // reveal all of the letters
+          instance.activePhrase.phrase.split('').forEach((char) => {
+            if (char !== ' ') {
+              instance.activePhrase.showMatchedLetter(char)
+            }
+          })
+        })
+
+        it('must return true', () => {
+          const expected = true
+          const actual = instance.checkForWin()
 
           expect(actual).to.equal(expected)
         })
