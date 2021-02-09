@@ -203,15 +203,22 @@ describe('meets expectations', () => {
         })
 
         it('must make the overlay appear', () => {
-          const expected = ''
+          const unexpected = 'none'
           const actual = window.ui.overlay.style.display
 
-          expect(actual).to.equal(expected)
+          expect(actual).to.not.equal(unexpected)
         })
 
         it('must assign the correct CSS class to the overlay', () => {
           const expected = 'win'
           const actual = window.ui.overlay.className
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must include a confirmation message', () => {
+          const expected = window.templates.winningMessage
+          const actual = window.ui.overlayMessage.innerHTML
 
           expect(actual).to.equal(expected)
         })
@@ -223,15 +230,22 @@ describe('meets expectations', () => {
         })
 
         it('must make the overlay appear', () => {
-          const expected = ''
+          const unexpected = 'none'
           const actual = window.ui.overlay.style.display
 
-          expect(actual).to.equal(expected)
+          expect(actual).to.not.equal(unexpected)
         })
 
         it('must assign the correct CSS class to the overlay', () => {
           const expected = 'lose'
           const actual = window.ui.overlay.className
+
+          expect(actual).to.equal(expected)
+        })
+
+        it('must include a confirmation message', () => {
+          const expected = window.templates.losingMessage
+          const actual = window.ui.overlayMessage.innerHTML
 
           expect(actual).to.equal(expected)
         })
@@ -425,10 +439,10 @@ describe('meets expectations', () => {
         })
 
         it('must make the overlay appear', () => {
-          const expected = ''
+          const unexpected = 'none'
           const actual = window.ui.overlay.style.display
 
-          expect(actual).to.equal(expected)
+          expect(actual).to.not.equal(unexpected)
         })
 
         it('must assign the correct CSS class to the overlay', () => {

@@ -27,8 +27,10 @@ class Game {
   gameOver (status) {
     if (status === 'win') {
       window.ui.overlay.className = 'win'
+      window.ui.overlayMessage.innerHTML = window.templates.winningMessage
     } else {
       window.ui.overlay.className = 'lose'
+      window.ui.overlayMessage.innerHTML = window.templates.losingMessage
     }
 
     window.ui.overlay.style.display = ''

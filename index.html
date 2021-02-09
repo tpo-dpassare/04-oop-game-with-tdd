@@ -80,6 +80,7 @@
 	<script src="js/WebConsole.js"></script>
 
 	<script class="mocha-init">
+	/* eslint-disable indent, no-tabs, no-mixed-spaces-and-tabs */
 	window.mocha.setup({
 	  reporter: window.WebConsole,
 	  ui: 'bdd'
@@ -91,6 +92,7 @@
 	  phraseList: document.getElementById('phrase').children[0],
 	  missedList: document.getElementById('scoreboard').children[0],
 	  overlay: document.getElementById('overlay'),
+	  overlayMessage: document.getElementById('game-over-message'),
 	  clearMisses: function () {
 	  	this.missedList.children.forEach((li) => {
 	  	  li.children[0].src = 'images/liveHeart.png'
@@ -100,6 +102,7 @@
 	  	this.phraseList.innerHTML = ''
 	  	this.overlay.className = 'start'
 	  	this.overlay.style.display = ''
+	  	this.overlayMessage.innerHTML = ''
 	  	this.clearMisses()
 	  }
 	})
@@ -113,7 +116,9 @@
 	  	return template
 	  },
 	  letter: '<li class="%%">%%</li>',
-	  missedImgSrc: 'images/lostHeart.png'
+	  missedImgSrc: 'images/lostHeart.png',
+	  winningMessage: 'GREAT JOB! You done guessed right!',
+	  losingMessage: 'OOPS! Well, you haven\'t failed, per se...<br>just found another way to guess incorrectly.'
 	})
 	</script>
 
