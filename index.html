@@ -77,12 +77,11 @@
     
 	<script src="https://unpkg.com/chai/chai.js"></script>
 	<script src="https://unpkg.com/mocha/mocha.js"></script>
-	<script src="js/WebConsole.js"></script>
 
 	<script class="mocha-init">
 	/* eslint-disable indent, no-tabs, no-mixed-spaces-and-tabs */
 	window.mocha.setup({
-	  reporter: window.WebConsole,
+	  reporter: 'spec',
 	  ui: 'bdd'
 	})
 
@@ -93,6 +92,9 @@
 	  missedList: document.getElementById('scoreboard').children[0],
 	  overlay: document.getElementById('overlay'),
 	  overlayMessage: document.getElementById('game-over-message'),
+	  getButton: (letter) => {
+	  	return Array.from(document.querySelectorAll('BUTTON.key')).find((elem) => { return elem.textContent === letter })
+	  },
 	  clearMisses: function () {
 	  	this.missedList.children.forEach((li) => {
 	  	  li.children[0].src = 'images/liveHeart.png'
@@ -103,6 +105,9 @@
 	  	this.overlay.className = 'start'
 	  	this.overlay.style.display = ''
 	  	this.overlayMessage.innerHTML = ''
+
+	  	// Enable all of the onscreen keyboard buttons and update each to use the key CSS class, and not use the chosen or wrong CSS classes.
+
 	  	this.clearMisses()
 	  }
 	})

@@ -453,5 +453,55 @@ describe('meets expectations', () => {
         })
       })
     })
+
+    it('must have a property called "handleInteraction"', () => {
+      const instance = new Game()
+      expect(instance).to.have.property('handleInteraction')
+    })
+
+    describe('the "handleInteraction" property', () => {
+      let instance = null
+
+      it('must be a function', () => {
+        instance = new Game()
+
+        const expected = 'function'
+        const actual = typeof instance.handleInteraction
+
+        expect(actual).to.equal(expected)
+      })
+
+      context('when a correct letter is clicked', () => {
+        let chosenLetter = ''
+
+        before(() => {
+          instance = new Game()
+          instance.startGame()
+
+          chosenLetter = instance.activePhrase.phrase.substring(0, 1)
+
+          instance.handleInteraction(chosenLetter)
+        })
+
+        after(() => {
+          // reset display
+          window.ui.reset()
+        })
+
+        it('must add the expected CSS class to the corresponding button', () => {
+          const expected = ['key', 'chosen']
+          const actual = window.ui.getButton(chosenLetter).className.split(' ')
+
+          expect(actual).to.have.members(expected)
+        })
+
+        it('must disable the corresponding button', () => {
+          const expected = true
+          const actual = window.ui.getButton(chosenLetter).disabled
+
+          expect(actual).to.equal(expected)
+        })
+      })
+    })
   })
 })

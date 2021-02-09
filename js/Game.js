@@ -51,4 +51,10 @@ class Game {
       this.gameOver('lose')
     }
   }
+
+  handleInteraction (letter) {
+    const button = window.ui.getButton(letter)
+    button.classList.add('chosen')
+    button.disabled = true
+  }
 }
